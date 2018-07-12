@@ -6,6 +6,9 @@ const selectColor = document.getElementById('color');
 const shirt = document.getElementsByClassName('shirt')[0];
 const design = document.getElementById('design');
 const color = document.getElementById('color');
+const fieldActivities = document.querySelector('.activities');
+const fieldsetInput = fieldActivities.querySelectorAll('input');
+console.log(fieldsetInput);
 
 userName.setAttribute('autofocus' , 'autofocus');
 
@@ -40,7 +43,7 @@ selectDesign.addEventListener('change' , (e) => {
         for( i = 0 ; i < 3 ; i++ ){
             selectColor.options[i].style.display = 'block';
         }
-        selectColor.options[0].setAttribute('selected' , 'selected');
+        selectColor.options[0].selected = 'selected';
     }
 
     if(e.target.value === 'heart js'){
@@ -53,7 +56,18 @@ selectDesign.addEventListener('change' , (e) => {
         for( i = 3 ; i < selectColor.options.length ; i++){ 
             selectColor.options[i].style.display = 'block';
         }
-        selectColor.options[3].setAttribute('selected' , 'selected');
-
+        selectColor.options[3].selected = 'selected';
     }
+});
+
+
+fieldActivities.addEventListener('change' , () => {
+
+    for( let i = 0 ; i < fieldsetInput.length ; i++){
+        if( fieldsetInput[i].checked){
+            console.log('yes');
+        }
+    }
+    
+
 });
