@@ -65,8 +65,6 @@ selectDesign.addEventListener('change', (e) => {
 
 
 
-
-
 for (let i = 0; i < label.length; i++) {
     fieldsetInput[i].addEventListener('click', () => {
 
@@ -76,7 +74,7 @@ for (let i = 0; i < label.length; i++) {
             console.log(total);
         }
         const lastLabel = document.getElementById('totalamount');
-        lastLabel.textContent = total.toString();
+        lastLabel.textContent = '$'+total.toString();
         
     });
 }
