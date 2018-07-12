@@ -13,6 +13,7 @@ function createExtraDiv(){
 const input = document.createElement('input');
 input.type = 'text';
 input.placeholder = "Your job role";
+input.id = "other-title";
 input.name = 'title';
 fieldSet.appendChild(input);
 input.style.display = 'none';
@@ -32,26 +33,27 @@ selectTitle.addEventListener('change' , (e) => {
 selectDesign.addEventListener('change' , (e) => {
    
     if(e.target.value === 'js puns'){
+       
         for( i = 3 ; i < selectColor.options.length ; i++){ 
             selectColor.options[i].style.display = 'none';
         }
         for( i = 0 ; i < 3 ; i++ ){
             selectColor.options[i].style.display = 'block';
         }
+        selectColor.options[0].setAttribute('selected' , 'selected');
     }
 
     if(e.target.value === 'heart js'){
-        var x =selectColor.selectedIndex;
-        var y =selectColor.options;
-        y[x].setAttribute('disabled' ,'true');
+     
         for( i = 0 ; i < 3 ; i++ ){
+            
             selectColor.options[i].style.display = 'none';
         }
 
         for( i = 3 ; i < selectColor.options.length ; i++){ 
             selectColor.options[i].style.display = 'block';
         }
-
+        selectColor.options[3].setAttribute('selected' , 'selected');
 
     }
 });
