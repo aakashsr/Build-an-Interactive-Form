@@ -1,5 +1,5 @@
 const userName = document.getElementById('name');
-const fieldSet = document.querySelector('fieldset');
+const basicInfoFieldSet = document.querySelector('fieldset');
 const selectTitle = document.getElementById('title');
 const selectDesign = document.getElementById('design');
 const selectColor = document.getElementById('color');
@@ -22,7 +22,7 @@ function createExtraDiv() {
     input.placeholder = "Your job role";
     input.id = "other-title";
     input.name = 'title';
-    fieldSet.appendChild(input);
+    basicInfoFieldSet.appendChild(input);
     input.style.display = 'none';
     return input;
 }
