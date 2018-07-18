@@ -12,6 +12,7 @@ const label = fieldActivities.getElementsByTagName('label');
 
 
 let total = 0;
+var substring = '';
 
 userName.setAttribute('autofocus', 'autofocus');
 
@@ -71,15 +72,16 @@ for (let i = 0; i < label.length; i++) {
         const text = label[i].textContent;
         if (fieldsetInput[i].checked) {
             total += parseInt(text.substring(text.indexOf('$') + 1, text.length));
-            console.log(total);
+        } else {
+            total -= parseInt(text.substring(text.indexOf('$') + 1, text.length));
         }
         const lastLabel = document.getElementById('totalamount');
-        lastLabel.textContent = '$'+total.toString();
-        
+        lastLabel.textContent = '$' + total.toString();
+
     });
 }
 
-function addTotalElement(){
+function addTotalElement() {
     const label = document.createElement('label');
     label.id = "totalamount";
     fieldActivities.appendChild(label);
@@ -87,3 +89,21 @@ function addTotalElement(){
 addTotalElement();
 
 
+
+// Disabling events of same days and at the same time
+
+fieldActivities.addEventListener('change', (e) => {
+
+    const sString = event.target.parentNode.textContent;
+    const partOfString = sString.substring(sString.indexOf('Tuesday'), sString.length - 6);
+
+    for (let i = 0; i < fieldsetInput.length; i++) {
+        if (label[i].textContent.indexOf(partOfString) > -1 && label[i].textContent !== sString) {
+            if (e.target.checked) {
+                fieldsetInput[i].disabled = true;
+            } else {
+                fieldsetInput[i].disabled = false;
+            }
+        }
+    }
+});
