@@ -9,7 +9,13 @@ const color = document.getElementById('color');
 const fieldActivities = document.querySelector('.activities');
 const fieldsetInput = fieldActivities.querySelectorAll('input');
 const label = fieldActivities.getElementsByTagName('label');
+const creditCardDiv = document.getElementById('credit-card');
+const paymentFieldset = document.getElementsByTagName('fieldset')[3];
+const payPalDiv = paymentFieldset.children[4];
+const bitcoinDiv = paymentFieldset.children[5]
 
+payPalDiv.style.display = 'none';
+bitcoinDiv.style.display = 'none';
 
 let total = 0;
 var substring = '';
@@ -31,9 +37,16 @@ createExtraDiv();
 
 selectTitle.addEventListener('change', (e) => {
 
+    const input = document.querySelector('[placeholder = "Your job role"]');
     if (e.target.value === 'other') {
-        const input = document.querySelector('[placeholder = "Your job role"]');
         input.style.display = 'block';
+    }
+
+    else {
+        // const input = document.querySelector('[placeholder = "Your job role"]');
+        if (input.style.display === 'block') {
+            input.style.display = 'none';
+        }
     }
 });
 
@@ -106,4 +119,26 @@ fieldActivities.addEventListener('change', (e) => {
             }
         }
     }
+});
+
+paymentFieldset.addEventListener('change', (e) => {
+
+    if (e.target.value === 'credit card') {
+        payPalDiv.style.display = 'none';
+        bitcoinDiv.style.display = 'none';
+        creditCardDiv.style.display = 'block';
+    }
+
+    if (e.target.value === 'paypal') {
+        creditCardDiv.style.display = 'none';
+        bitcoinDiv.style.display = 'none';
+        payPalDiv.style.display = 'block';
+    }
+
+    if (e.target.value === 'bitcoin') {
+        creditCardDiv.style.display = 'none';
+        payPalDiv.style.display = 'none';
+        bitcoinDiv.style.display = 'block';
+    }
+
 });
