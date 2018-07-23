@@ -184,11 +184,16 @@ function checkUserName() {
 //Checking if the user email field is not emtpy and also formatted as per rule
 function checkUserEmail() {
 
-    if (valEmail()) {
-        return true;
-    } else {
-        alert("Please enter your email in valid format");
+       if (userEmail.value === '') {
+        alert("Please enter you Email Address!");
         return false;
+    } else {
+        if (valEmail()) {
+            return true;
+        } else {
+            alert("Please enter your Email Address in a correct format");
+            return false;
+        }
     }
 }
 
@@ -213,33 +218,48 @@ function checkCheckbox() {
 //Checking the credit card field is not empty and also in proper range
 function checkCcNumber() {
 
-    if (valCcNumber()) {
-        return true;
-    } else {
-        alert("plese enter a valid credit card number");
+    if (ccNum.value === '') {
+        alert("Please enter your Credit Card Number");
         return false;
+    } else {
+        if (valCcNumber()) {
+            return true;
+        } else {
+            alert("Your Credit Card number should be between 13-15 digit");
+            return false;
+        }
     }
 }
 
 //Checking the zipcode field is not empty and also in proper range
 function checkZipCode() {
-
-    if (valZipCode()) {
-        return true;
-    } else {
-        alert("plese enter a valid zip code");
+ 
+    if (zipCodeNum.value === '') {
+        alert("Please enter your Zip Code Number");
         return false;
+    } else {
+        if (valZipCode()) {
+            return true;
+        } else {
+            alert("Your Zip Code number should be of 5 digit");
+            return false;
+        }
     }
 }
 
 //Checking the ccc number field is not empty and also in proper range
 function checkCvvNumber() {
-
-    if (valCvvNumber()) {
-        return true;
-    } else {
-        alert("plese enter a valid cvv number");
+    
+    if (cvvCodeNum.value === '') {
+        alert("Please enter your CVV Number");
         return false;
+    } else {
+        if (valCvvNumber()) {
+            return true;
+        } else {
+            alert("Your CVV number should be of 3 digit");
+            return false;
+        }
     }
 }
 
