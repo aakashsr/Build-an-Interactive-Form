@@ -32,6 +32,15 @@ a {
   text-decoration: none;
 }
 
+span{
+	width: 300px;
+	left: 110%;
+	color: red;
+	margin-bottom: .35em;
+	visibility: hidden;
+	font-size: .85em;
+}
+
 /* ================================= 
   Form Element Styles
 ==================================== */
@@ -74,11 +83,12 @@ label {
 	color: #000;
 	display: block;
 	margin-bottom: .5em;
+	margin-top: .75em;
 }
 
 input,
 select {
-	margin-bottom: 1.125em;	
+	margin-bottom: .65em;	
 }
 
 input {

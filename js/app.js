@@ -24,6 +24,7 @@ const zipCodeNum = document.getElementById('zip');
 var activitiesLegend = fieldActivities.querySelector('legend');
 var substring = '';
 let total = 0;
+var spanElement = document.querySelector('span');
 
 colorDiv.style.display = 'none';
 payPalDiv.style.display = 'none';
@@ -48,7 +49,7 @@ selectTitle.addEventListener('change', (e) => {
     }
 });
 
-// Displaying the color option as per the 'Desing' chosen
+// Displaying the color option as per the 'Design' chosen
 selectDesign.addEventListener('change', (e) => {
     colorDiv.style.display = 'block';
     if (e.target.value === 'js puns') {
@@ -105,11 +106,15 @@ addTotalElement();
 
 fieldActivities.addEventListener('change', (e) => {
 
+    //Select the label text in a variable sString
     const sString = event.target.parentNode.textContent;
+    //Then extract that specific part from the label which you want to match in other labels
     const partOfString = sString.substring(sString.indexOf('Tuesday'), sString.length - 6);
-
+    //Now throug all the label and search if the extracted part found  in any label[i].textContent 
+    //Make sure , it should not match to its own
     for (let i = 0; i < fieldsetInput.length; i++) {
         if (label[i].textContent.indexOf(partOfString) > -1 && label[i].textContent !== sString) {
+            //if found, then check whether its checked or not
             if (e.target.checked) {
                 fieldsetInput[i].disabled = true;
             } else {
@@ -184,80 +189,87 @@ function checkUserName() {
 //Checking if the user email field is not emtpy and also formatted as per rule
 function checkUserEmail() {
 
-       if (userEmail.value === '') {
-        alert("Please enter you Email Address!");
+    if (userEmail.value === '') {
+        alert("Please enter you Email Address!");   //if empty show this message
         return false;
     } else {
         if (valEmail()) {
             return true;
         } else {
-            alert("Please enter your Email Address in a correct format");
+            alert("Please enter your Email Address in a correct format");       // if not formatted well , show this message
             return false;
         }
     }
 }
 
-//Checking if atleast one of the checkbox has been checked 
+// Using closure to make count variable local so that , when user uncheck the checkbox 
+//after checking it , value of count resets to 0 and message will appear again.If we defined it globally , once we 
+//checked the checkbox , message will never appear again even if uncheck all the checkboxes because value cannot be 0 again.
 
-var count = 0;
+function checkBoxCount() {
+    var count = 0;
+    return function () {
+        for (let i = 0; i < fieldsetInput.length; i++) {
+            if (fieldsetInput[i].checked) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+}
 
 function checkCheckbox() {
-
-    for (let i = 0; i < fieldsetInput.length; i++) {
-        if (fieldsetInput[i].checked) {
-            count += 1;
-        }
-    }
-    if (count === 0) {
+    var checkboxvalue = checkBoxCount(); //checkboxvalue is now closure
+    if (checkboxvalue() === 0) {
         alert('Please select atleast one activity');
         return false;
     }
-    return count;
+    return true;
 }
 
-//Checking the credit card field is not empty and also in proper range
+//Checking the credit card field is not empty and also input is in proper range
 function checkCcNumber() {
 
     if (ccNum.value === '') {
-        alert("Please enter your Credit Card Number");
+        alert("Please enter your Credit Card Number");  //if empty , show this message
         return false;
     } else {
         if (valCcNumber()) {
             return true;
         } else {
-            alert("Your Credit Card number should be between 13-15 digit");
+            alert("Your Credit Card number should be between 13-15 digit"); //if not formatted well , show this message
             return false;
         }
     }
 }
 
-//Checking the zipcode field is not empty and also in proper range
+//Checking the zipcode field is not empty and also input is in proper range
 function checkZipCode() {
- 
+
     if (zipCodeNum.value === '') {
-        alert("Please enter your Zip Code Number");
+        alert("Please enter your Zip Code Number");     //if empty , show this message
         return false;
     } else {
         if (valZipCode()) {
             return true;
         } else {
-            alert("Your Zip Code number should be of 5 digit");
+            alert("Your Zip Code number should be of 5 digit");     //if not formatted well , show this message
             return false;
         }
     }
 }
 
-//Checking the ccc number field is not empty and also in proper range
+//Checking the CVV number field is not empty and also input is in proper range
 function checkCvvNumber() {
-    
+
     if (cvvCodeNum.value === '') {
-        alert("Please enter your CVV Number");
+        alert("Please enter your CVV Number");      //if empty , show this message
         return false;
     } else {
         if (valCvvNumber()) {
             return true;
         } else {
-            alert("Your CVV number should be of 3 digit");
+            alert("Your CVV number should be of 3 digit");       //if not formatted well , show this message
             return false;
         }
     }
@@ -265,8 +277,8 @@ function checkCvvNumber() {
 
 creditCardDiv.style.display = 'block';
 
+//Preventing the page from submiting if input is empty or not well formatted
 button.addEventListener('click', (event) => {
-    // const checkBox = checkCheckbox();
     if (!checkUserName()) {
         event.preventDefault();
     } else if (!checkUserEmail()) {
@@ -288,7 +300,7 @@ button.addEventListener('click', (event) => {
     highlightElements();
 });
 
-
+// function to highlight the input fields which are not filled or well formatted
 function highlightElements() {
     if (userName.value === '') {
         userName.style.border = '1px #f00 solid';
@@ -310,7 +322,8 @@ function highlightElements() {
         userEmail.previousElementSibling.style.color = '#184f68';
     }
 
-    if (count === 0) {
+    var checkboxvalue2 = checkBoxCount();
+    if (checkboxvalue2() == 0 ) {
         activitiesLegend.style.color = '#f00';
     } else {
         activitiesLegend.style.color = '#184f68';
@@ -351,3 +364,13 @@ function highlightElements() {
         }
     }
 }
+
+//real time validation of email
+userEmail.addEventListener('keyup', () => {
+
+    if ((/^[^@]+@[^@.]+\.[a-z]+$/.test(userEmail.value)) == false) {
+        spanElement.style.visibility = 'visible';
+    } else {
+        spanElement.style.visibility = 'hidden';
+    }
+});
