@@ -1,13 +1,9 @@
 const userName = document.getElementById('name');
 const userEmail = document.getElementById('mail');
-const basicInfoFieldSet = document.querySelector('fieldset');
 const selectTitle = document.getElementById('title');
 const selectDesign = document.getElementById('design');
 const selectColor = document.getElementById('color');
 const colorDiv = document.getElementById('colors-js-puns');
-const shirt = document.getElementsByClassName('shirt')[0];
-const design = document.getElementById('design');
-const color = document.getElementById('color');
 const fieldActivities = document.querySelector('.activities');
 const fieldsetInput = fieldActivities.querySelectorAll('input');
 const label = fieldActivities.getElementsByTagName('label');
@@ -22,24 +18,26 @@ const ccNum = document.getElementById('cc-num');
 const cvvCodeNum = document.getElementById('cvv');
 const zipCodeNum = document.getElementById('zip');
 var activitiesLegend = fieldActivities.querySelector('legend');
-var substring = '';
 let total = 0;
 var spanElement = document.querySelector('span');
 
+//initially hiding the color options
 colorDiv.style.display = 'none';
+//initially hiding the paypal div 
 payPalDiv.style.display = 'none';
+//initially hiding the bitcoin div
 bitcoinDiv.style.display = 'none';
 
 const input = document.querySelector('[placeholder = "Your job role"]');
 input.style.display = 'none';
 
+//automatically setting the focus in username input 
 userName.setAttribute('autofocus', 'autofocus');
 
 // Displaying 'div' when user chooses the 'other' option and also
 // hiding it if user changes his mind and chooses another option
 
 selectTitle.addEventListener('change', (e) => {
-
     if (e.target.value === 'other') {
         input.style.display = 'block';
     } else {
@@ -66,7 +64,6 @@ selectDesign.addEventListener('change', (e) => {
     if (e.target.value === 'heart js') {
 
         for (i = 0; i < 3; i++) {
-
             selectColor.options[i].style.display = 'none';
         }
 
@@ -90,7 +87,6 @@ for (let i = 0; i < label.length; i++) {
         }
         const lastLabel = document.getElementById('totalamount');
         lastLabel.textContent = '$' + total.toString();
-
     });
 }
 
@@ -105,7 +101,6 @@ addTotalElement();
 // Disabling activities on the same day and at the same time when user selects an activity
 
 fieldActivities.addEventListener('change', (e) => {
-
     //Select the label text in a variable sString
     const sString = event.target.parentNode.textContent;
     //Then extract that specific part from the label which you want to match in other labels
@@ -188,15 +183,14 @@ function checkUserName() {
 
 //Checking if the user email field is not emtpy and also formatted as per rule
 function checkUserEmail() {
-
     if (userEmail.value === '') {
-        alert("Please enter you Email Address!");   //if empty show this message
+        alert("Please enter you Email Address!"); //if empty show this message
         return false;
     } else {
         if (valEmail()) {
             return true;
         } else {
-            alert("Please enter your Email Address in a correct format");       // if not formatted well , show this message
+            alert("Please enter your Email Address in a correct format"); // if not formatted well , show this message
             return false;
         }
     }
@@ -229,9 +223,8 @@ function checkCheckbox() {
 
 //Checking the credit card field is not empty and also input is in proper range
 function checkCcNumber() {
-
     if (ccNum.value === '') {
-        alert("Please enter your Credit Card Number");  //if empty , show this message
+        alert("Please enter your Credit Card Number"); //if empty , show this message
         return false;
     } else {
         if (valCcNumber()) {
@@ -247,13 +240,13 @@ function checkCcNumber() {
 function checkZipCode() {
 
     if (zipCodeNum.value === '') {
-        alert("Please enter your Zip Code Number");     //if empty , show this message
+        alert("Please enter your Zip Code Number"); //if empty , show this message
         return false;
     } else {
         if (valZipCode()) {
             return true;
         } else {
-            alert("Your Zip Code number should be of 5 digit");     //if not formatted well , show this message
+            alert("Your Zip Code number should be of 5 digit"); //if not formatted well , show this message
             return false;
         }
     }
@@ -261,15 +254,14 @@ function checkZipCode() {
 
 //Checking the CVV number field is not empty and also input is in proper range
 function checkCvvNumber() {
-
     if (cvvCodeNum.value === '') {
-        alert("Please enter your CVV Number");      //if empty , show this message
+        alert("Please enter your CVV Number"); //if empty , show this message
         return false;
     } else {
         if (valCvvNumber()) {
             return true;
         } else {
-            alert("Your CVV number should be of 3 digit");       //if not formatted well , show this message
+            alert("Your CVV number should be of 3 digit"); //if not formatted well , show this message
             return false;
         }
     }
@@ -279,6 +271,7 @@ creditCardDiv.style.display = 'block';
 
 //Preventing the page from submiting if input is empty or not well formatted
 button.addEventListener('click', (event) => {
+
     if (!checkUserName()) {
         event.preventDefault();
     } else if (!checkUserEmail()) {
@@ -323,7 +316,7 @@ function highlightElements() {
     }
 
     var checkboxvalue2 = checkBoxCount();
-    if (checkboxvalue2() == 0 ) {
+    if (checkboxvalue2() == 0) {
         activitiesLegend.style.color = '#f00';
     } else {
         activitiesLegend.style.color = '#184f68';
@@ -369,6 +362,7 @@ function highlightElements() {
 userEmail.addEventListener('keyup', () => {
 
     if ((/^[^@]+@[^@.]+\.[a-z]+$/.test(userEmail.value)) == false) {
+    
         spanElement.style.visibility = 'visible';
     } else {
         spanElement.style.visibility = 'hidden';
