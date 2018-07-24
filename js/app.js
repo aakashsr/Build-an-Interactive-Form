@@ -20,8 +20,6 @@ const cvvCodeNum = document.getElementById('cvv');
 const zipCodeNum = document.getElementById('zip');
 var activitiesLegend = fieldActivities.querySelector('legend');
 let total = 0;
-// var spanElement = document.querySelector('span');
-
 
 //initially hiding the color options
 colorDiv.style.display = 'none';
@@ -33,6 +31,7 @@ payPalDiv.style.display = 'none';
 bitcoinDiv.style.display = 'none';
 
 const input = document.querySelector('[placeholder = "Your job role"]');
+//initially hiding the div of 'other' option
 input.style.display = 'none';
 
 //Creating and appending 'span' element
@@ -78,7 +77,6 @@ userName.setAttribute('autofocus', 'autofocus');
 
 // Displaying 'div' when user chooses the 'other' option and also
 // hiding it if user changes his mind and chooses another option
-
 selectTitle.addEventListener('change', (e) => {
     if (e.target.value === 'other') {
         input.style.display = 'block';
@@ -121,7 +119,6 @@ selectDesign.addEventListener('change', (e) => {
 });
 
 // Calculating the total cost for registering
-
 for (let i = 0; i < label.length; i++) {
     fieldsetInput[i].addEventListener('click', () => {
 
@@ -145,7 +142,6 @@ function addTotalElement() {
 addTotalElement();
 
 // Disabling activities on the same day and at the same time when user selects an activity
-
 fieldActivities.addEventListener('change', (e) => {
     //Select the label text in a variable sString
     const sString = event.target.parentNode.textContent;
@@ -200,8 +196,7 @@ function hideCreditCard() {
     creditCardDiv.style.display = 'none';
 }
 
-// Defining validation methods
-
+// Defining validation methods for email , cc number , cc zip code , cc cvv number
 function valEmail() {
     return (/^[^@]+@[^@.]+\.[a-z]+$/.test(userEmail.value));
 }
@@ -224,36 +219,9 @@ const spanThird = document.getElementById('span3');
 const spanFourth = document.getElementById('span4');
 const spanFifth = document.getElementById('span5');
 
-//Checking if the user name field is not empty
-function checkUserName() {
-    if (userName.value === "") {
-        spanFirst.textContent = "*Username required";
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//Checking if the user email field is not emtpy and also formatted as per rule
-function checkUserEmail() {
-    if (userEmail.value === '') {
-        spanSecond.textContent = "*Email address required"; //if empty show this message
-        return false;
-    } else {
-        if (valEmail()) {
-            return true;
-        } else {
-            spanSecond.textContent = "*Please enter your Email Address in a correct format"; // if not formatted well , show this message
-            return false;
-        }
-    }
-}
-
-
 // Using closure to make count variable local so that , when user uncheck the checkbox 
 //after checking it , value of count resets to 0 and message will appear again.If we defined it globally , once we 
 //checked the checkbox , message will never appear again even if uncheck all the checkboxes because value cannot be 0 again.
-
 function checkBoxCount() {
     var count = 0;
     return function () {
@@ -266,175 +234,180 @@ function checkBoxCount() {
     }
 }
 
-function checkCheckbox() {
-    var checkboxvalue = checkBoxCount(); //checkboxvalue is now closure
-    if (checkboxvalue() === 0) {
-        // alert('Please select atleast one activity');
-        return false;
-    }
-    return true;
-}
-
-//Checking the credit card field is not empty and also input is in proper range
-function checkCcNumber() {
-    if (ccNum.value === '') {
-        spanThird.textContent = "*Required"; //if empty , show this message
-        return false;
-    } else {
-        if (valCcNumber()) {
-            return true;
-        } else {
-            spanThird.textContent = "*Should be between 13-15 digit"; //if not formatted well , show this message
-            return false;
-        }
-    }
-}
-
-//Checking the zipcode field is not empty and also input is in proper range
-function checkZipCode() {
-
-    if (zipCodeNum.value === '') {
-        spanFourth.textContent = "*Required"; //if empty , show this message
-        return false;
-    } else {
-        if (valZipCode()) {
-            return true;
-        } else {
-            spanFourth.textContent = "*Should be of 5 digit"; //if not formatted well , show this message
-            return false;
-        }
-    }
-}
-
-//Checking the CVV number field is not empty and also input is in proper range
-function checkCvvNumber() {
-    if (cvvCodeNum.value === '') {
-        spanFifth.textContent = "*Required"; //if empty , show this message
-        return false;
-    } else {
-        if (valCvvNumber()) {
-            return true;
-        } else {
-            spanFifth.textContent = "*Should be of 3 digit"; //if not formatted well , show this message
-            return false;
-        }
-    }
-}
-
-creditCardDiv.style.display = 'block';
-
-//Preventing the page from submiting if input is empty or not well formatted
-button.addEventListener('click', (event) => {
-
-    if (!checkUserName()) {
-        event.preventDefault();
-    }
-    if (!checkUserEmail()) {
-        event.preventDefault();
-    }
-    if (!checkCheckbox()) {
-        event.preventDefault();
-    }
-    if (creditCardDiv.style.display === 'block') {
-
-        if (!checkCcNumber()) {
-            event.preventDefault();
-        }
-        if (!checkZipCode()) {
-            event.preventDefault();
-        }
-        if (!checkCvvNumber()) {
-            event.preventDefault();
-        }
-    }
-    highlightElements();
-});
-
-// function to highlight the input fields which are not filled or well formatted
-function highlightElements() {
+function checkUserName() {
     if (userName.value === '') {
+        spanFirst.textContent = "*User name required";
         userName.style.border = '1px #f00 solid';
         userName.previousElementSibling.style.color = '#f00';
-        userName.style.boxShadow = '0 0 4px 0 #f00';
+        userName.style.boxShadow = '0 0 2px 0 #f00';
         spanFirst.style.display = 'block';
+        event.preventDefault();
     } else {
         userName.style.border = '2px solid #c1deeb';
         userName.style.boxShadow = 'none';
         userName.previousElementSibling.style.color = '#184f68';
         spanFirst.style.display = 'none';
     }
+}
 
-    if (userEmail.value === '' || !valEmail()) {
+function checkUserEmail() {
+    if (userEmail.value === '') {
+        spanSecond.textContent = "*Email address required";
         userEmail.style.border = '1px #f00 solid'
         userEmail.previousElementSibling.style.color = '#f00';
-        userEmail.style.boxShadow = '0 0 4px 0 #f00';
+        userEmail.style.boxShadow = '0 0 2px 0 #f00';
         spanSecond.style.display = 'block';
+        event.preventDefault();
     } else {
-        userEmail.style.border = '2px solid #c1deeb';
-        userEmail.style.boxShadow = 'none';
-        userEmail.previousElementSibling.style.color = '#184f68';
-        spanSecond.style.display = 'none';
-    }
-
-    var checkboxvalue2 = checkBoxCount();
-    if (checkboxvalue2() == 0) {
-        activitiesLegend.style.color = '#f00';
-    } else {
-        activitiesLegend.style.color = '#184f68';
-    }
-
-    if (creditCardDiv.style.display === 'block') {
-
-        if (ccNum.value === '' || !valCcNumber()) {
-            ccNum.style.border = '1px #f00 solid';
-            ccNum.previousElementSibling.style.color = '#f00';
-            ccNum.style.boxShadow = '0 0 4px 0 #f00';
-            spanThird.style.display = 'block';
+        if (!valEmail()) {
+            spanSecond.textContent = "*Please enter a valid email address";
+            userEmail.style.border = '1px #f00 solid';
+            userEmail.style.boxShadow = '0 0 2px 0 #f00';
+            spanSecond.style.display = 'block';
+            event.preventDefault();
         } else {
-            ccNum.style.border = '2px solid #c1deeb';
-            ccNum.style.boxShadow = 'none';
-            ccNum.previousElementSibling.style.color = '#184f68';
-            spanThird.style.display = 'none';
-        }
-
-        if (zipCodeNum.value === '' || !valZipCode()) {
-            zipCodeNum.style.border = '1px #f00 solid';
-            zipCodeNum.previousElementSibling.style.color = '#f00';
-            zipCodeNum.style.boxShadow = '0 0 4px 0 #f00';
-            spanFourth.style.display = 'block';
-
-        } else {
-            zipCodeNum.style.border = '2px solid #c1deeb';
-            zipCodeNum.style.boxShadow = 'none';
-            zipCodeNum.previousElementSibling.style.color = '#184f68';
-            spanFourth.style.display = 'none';
-        }
-
-        if (cvvCodeNum.value === '' || !valCvvNumber()) {
-            cvvCodeNum.style.border = '1px #f00 solid';
-            cvvCodeNum.previousElementSibling.style.color = '#f00';
-            cvvCodeNum.style.boxShadow = '0 0 4px 0 #f00';
-            spanFifth.style.display = 'block';
-
-        } else {
-            cvvCodeNum.style.border = '2px solid #c1deeb';
-            cvvCodeNum.style.boxShadow = 'none';
-            cvvCodeNum.previousElementSibling.style.color = '#184f68';
-            spanFifth.style.display = 'none';
+            userEmail.style.border = '2px solid #c1deeb';
+            userEmail.style.boxShadow = 'none';
+            userEmail.previousElementSibling.style.color = '#184f68';
+            spanSecond.style.display = 'none';
         }
     }
 }
 
+function checkCheckboxInfo() {
+    var checkboxvalue2 = checkBoxCount();
+    if (checkboxvalue2() === 0) {
+        activitiesLegend.style.color = '#f00';
+        event.preventDefault();
+    } else {
+        activitiesLegend.style.color = '#184f68';
+    }
+}
+
+// initially setting the 'display' property of credit card div to 'block'
+// creditCardDiv.style.display === 'block';
+
+function checkCcNumber() {
+    if (paymentDiv.value === 'credit card') {
+
+        if (ccNum.value === '') {
+            spanThird.textContent = "*Required";
+            ccNum.style.border = '1px #f00 solid'
+            ccNum.previousElementSibling.style.color = '#f00';
+            ccNum.style.boxShadow = '0 0 2px 0 #f00';
+            spanThird.style.display = 'block';
+            event.preventDefault();
+        } else {
+            if (!valCcNumber()) {
+                spanThird.textContent = "*Should be between 13-15 digit";
+                ccNum.style.border = '1px #f00 solid';
+                ccNum.style.boxShadow = '0 0 2px 0 #f00';
+                spanThird.style.display = 'block';
+                event.preventDefault();
+            } else {
+                ccNum.style.border = '2px solid #c1deeb';
+                ccNum.style.boxShadow = 'none';
+                ccNum.previousElementSibling.style.color = '#184f68';
+                spanThird.style.display = 'none';
+            }
+        }
+    }
+}
+
+function checkZipCode() {
+    if (paymentDiv.value === 'credit card') {
+        if (zipCodeNum.value === '') {
+            spanFourth.textContent = "*Required";
+            zipCodeNum.style.border = '1px #f00 solid'
+            zipCodeNum.previousElementSibling.style.color = '#f00';
+            zipCodeNum.style.boxShadow = '0 0 2px 0 #f00';
+            spanFourth.style.display = 'block';
+            event.preventDefault();
+        } else {
+            if (!valZipCode()) {
+                spanFourth.textContent = "*Must be 5 digit";
+                zipCodeNum.style.border = '1px #f00 solid';
+                zipCodeNum.style.boxShadow = '0 0 2px 0 #f00';
+                spanFourth.style.display = 'block';
+                event.preventDefault();
+            } else {
+                zipCodeNum.style.border = '2px solid #c1deeb';
+                zipCodeNum.style.boxShadow = 'none';
+                zipCodeNum.previousElementSibling.style.color = '#184f68';
+                spanFourth.style.display = 'none';
+            }
+        }
+    }
+}
+
+function checkCvvNumber() {
+    if (paymentDiv.value === 'credit card') {
+        if (cvvCodeNum.value === '') {
+            spanFifth.textContent = "*Required";
+            cvvCodeNum.style.border = '1px #f00 solid'
+            cvvCodeNum.previousElementSibling.style.color = '#f00';
+            cvvCodeNum.style.boxShadow = '0 0 2px 0 #f00';
+            spanFifth.style.display = 'block';
+            event.preventDefault();
+        } else {
+            if (!valCvvNumber()) {
+                spanFifth.textContent = "*Must be 3 digit";
+                cvvCodeNum.style.border = '1px #f00 solid';
+                cvvCodeNum.style.boxShadow = '0 0 2px 0 #f00';
+                spanFifth.style.display = 'block';
+                event.preventDefault();
+            } else {
+                cvvCodeNum.style.border = '2px solid #c1deeb';
+                cvvCodeNum.style.boxShadow = 'none';
+                cvvCodeNum.previousElementSibling.style.color = '#184f68';
+                spanFifth.style.display = 'none';
+            }
+        }
+    }
+}
+
+//calling all the functions on final submit "click" event to check whether the fields 
+//are well formatted or not
+button.addEventListener('click', (event) => {
+    checkUserName();
+    checkUserEmail();
+    checkCheckboxInfo();
+    checkCcNumber();
+    checkZipCode();
+    checkCvvNumber();
+});
+
 //real time validation of email
 userEmail.addEventListener('keyup', () => {
 
-    if (userEmail.value === "") {
-        spanSecond.textContent = "*Email Address required";
-        spanSecond.style.visibility = 'visible';
-    } else if ((/^[^@]+@[^@.]+\.[a-z]+$/.test(userEmail.value)) === false) {
-        spanSecond.textContent = "*Please enter your Email Address in a correct format";
-        spanSecond.style.visibility = 'visible';
-    } else {
-        spanSecond.style.visibility = 'hidden';
-    }
+    // if (userEmail.value === "") {
+    //     spanSecond.textContent = "*Email Address required";
+    //     spanSecond.style.visibility = 'visible';
+    // } else if (!valEmail()) {
+    //     spanSecond.textContent = "*Please enter your Email Address in a correct format";
+    //     spanSecond.style.visibility = 'visible';
+    // } else {
+    //     spanSecond.style.visibility = 'hidden';
+    // }
+    checkUserEmail();
+});
+
+userName.addEventListener('keyup', () => {
+    checkUserName();
+});
+
+ccNum.addEventListener('keyup', () => {
+    checkCcNumber();
+});
+
+zipCodeNum.addEventListener('keyup' , () => {
+    checkZipCode();
+});
+
+cvvCodeNum.addEventListener('keyup' , () => {
+    checkCvvNumber();
+}); 
+
+fieldActivities.addEventListener('change' , () => {
+    checkCheckboxInfo();
 });
