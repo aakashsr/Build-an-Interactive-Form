@@ -428,7 +428,8 @@ function highlightElements() {
 //real time validation of email
 userEmail.addEventListener('keyup', () => {
 
-    if ((/^[^@]+@[^@.]+\.[a-z]+$/.test(userEmail.value)) == false) {
+    if ((/^[^@]+@[^@.]+\.[a-z]+$/.test(userEmail.value)) === false) {
+        spanSecond.textContent = "*Please enter your Email Address in a correct format";
         spanSecond.style.visibility = 'visible';
     } else {
         spanSecond.style.visibility = 'hidden';
