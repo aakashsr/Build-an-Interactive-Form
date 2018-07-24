@@ -34,11 +34,9 @@ a {
 
 span{
 	width: 300px;
-	left: 110%;
 	color: red;
 	margin-bottom: .35em;
-	visibility: hidden;
-	font-size: .85em;
+	font-size: .75em;
 }
 
 /* ================================= 

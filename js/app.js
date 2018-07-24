@@ -1,5 +1,6 @@
 const userName = document.getElementById('name');
 const userEmail = document.getElementById('mail');
+const basicFieldset = document.querySelector('fieldset');
 const selectTitle = document.getElementById('title');
 const selectDesign = document.getElementById('design');
 const selectColor = document.getElementById('color');
@@ -19,10 +20,13 @@ const cvvCodeNum = document.getElementById('cvv');
 const zipCodeNum = document.getElementById('zip');
 var activitiesLegend = fieldActivities.querySelector('legend');
 let total = 0;
-var spanElement = document.querySelector('span');
+// var spanElement = document.querySelector('span');
+
 
 //initially hiding the color options
 colorDiv.style.display = 'none';
+//initially setting the credit card as default option
+paymentOptions[1].selected = 'selected';
 //initially hiding the paypal div 
 payPalDiv.style.display = 'none';
 //initially hiding the bitcoin div
@@ -30,6 +34,44 @@ bitcoinDiv.style.display = 'none';
 
 const input = document.querySelector('[placeholder = "Your job role"]');
 input.style.display = 'none';
+
+//Creating and appending 'span' element
+function createFirstSpan() {
+    const spanElem1 = document.createElement('span');
+    spanElem1.id = 'span1';
+    basicFieldset.insertBefore(spanElem1, basicFieldset.children[3])
+}
+
+function createSecondSpan() {
+    const spanElem2 = document.createElement('span');
+    spanElem2.id = 'span2';
+    basicFieldset.insertBefore(spanElem2, basicFieldset.children[6]);
+}
+
+function createThirdSpan() {
+    const spanElem3 = document.createElement('span');
+    spanElem3.id = 'span3';
+    creditCardDiv.children[0].appendChild(spanElem3);
+}
+
+function createFourthSpan() {
+    const spanElem4 = document.createElement('span');
+    spanElem4.id = 'span4';
+    creditCardDiv.children[1].appendChild(spanElem4);
+}
+
+function createFifthSpan() {
+    const spanElem5 = document.createElement('span');
+    spanElem5.id = 'span5';
+    creditCardDiv.children[2].appendChild(spanElem5);
+}
+
+//Calling the function to append the 'span' element
+createFirstSpan();
+createSecondSpan();
+createThirdSpan();
+createFourthSpan();
+createFifthSpan();
 
 //automatically setting the focus in username input 
 userName.setAttribute('autofocus', 'autofocus');
@@ -71,6 +113,10 @@ selectDesign.addEventListener('change', (e) => {
             selectColor.options[i].style.display = 'block';
         }
         selectColor.options[3].selected = 'selected';
+    }
+
+    if (e.target.value === 'select theme') {
+        colorDiv.style.display = 'none';
     }
 });
 
@@ -141,6 +187,7 @@ paymentFieldset.addEventListener('change', (e) => {
     }
 });
 
+
 function hidePayPal() {
     payPalDiv.style.display = 'none';
 }
@@ -171,10 +218,16 @@ function valCvvNumber() {
     return (/^\d{3}$/.test(cvvCodeNum.value));
 }
 
+const spanFirst = document.getElementById('span1');
+const spanSecond = document.getElementById('span2');
+const spanThird = document.getElementById('span3');
+const spanFourth = document.getElementById('span4');
+const spanFifth = document.getElementById('span5');
+
 //Checking if the user name field is not empty
 function checkUserName() {
     if (userName.value === "") {
-        alert("Please enter your username");
+        spanFirst.textContent = "*Username required";
         return false;
     } else {
         return true;
@@ -184,17 +237,18 @@ function checkUserName() {
 //Checking if the user email field is not emtpy and also formatted as per rule
 function checkUserEmail() {
     if (userEmail.value === '') {
-        alert("Please enter you Email Address!"); //if empty show this message
+        spanSecond.textContent = "*Email address required"; //if empty show this message
         return false;
     } else {
         if (valEmail()) {
             return true;
         } else {
-            alert("Please enter your Email Address in a correct format"); // if not formatted well , show this message
+            spanSecond.textContent = "*Please enter your Email Address in a correct format"; // if not formatted well , show this message
             return false;
         }
     }
 }
+
 
 // Using closure to make count variable local so that , when user uncheck the checkbox 
 //after checking it , value of count resets to 0 and message will appear again.If we defined it globally , once we 
@@ -215,7 +269,7 @@ function checkBoxCount() {
 function checkCheckbox() {
     var checkboxvalue = checkBoxCount(); //checkboxvalue is now closure
     if (checkboxvalue() === 0) {
-        alert('Please select atleast one activity');
+        // alert('Please select atleast one activity');
         return false;
     }
     return true;
@@ -224,13 +278,13 @@ function checkCheckbox() {
 //Checking the credit card field is not empty and also input is in proper range
 function checkCcNumber() {
     if (ccNum.value === '') {
-        alert("Please enter your Credit Card Number"); //if empty , show this message
+        spanThird.textContent = "*Required"; //if empty , show this message
         return false;
     } else {
         if (valCcNumber()) {
             return true;
         } else {
-            alert("Your Credit Card number should be between 13-15 digit"); //if not formatted well , show this message
+            spanThird.textContent = "*Should be between 13-15 digit"; //if not formatted well , show this message
             return false;
         }
     }
@@ -240,13 +294,13 @@ function checkCcNumber() {
 function checkZipCode() {
 
     if (zipCodeNum.value === '') {
-        alert("Please enter your Zip Code Number"); //if empty , show this message
+        spanFourth.textContent = "*Required"; //if empty , show this message
         return false;
     } else {
         if (valZipCode()) {
             return true;
         } else {
-            alert("Your Zip Code number should be of 5 digit"); //if not formatted well , show this message
+            spanFourth.textContent = "*Should be of 5 digit"; //if not formatted well , show this message
             return false;
         }
     }
@@ -255,13 +309,13 @@ function checkZipCode() {
 //Checking the CVV number field is not empty and also input is in proper range
 function checkCvvNumber() {
     if (cvvCodeNum.value === '') {
-        alert("Please enter your CVV Number"); //if empty , show this message
+        spanFifth.textContent = "*Required"; //if empty , show this message
         return false;
     } else {
         if (valCvvNumber()) {
             return true;
         } else {
-            alert("Your CVV number should be of 3 digit"); //if not formatted well , show this message
+            spanFifth.textContent = "*Should be of 3 digit"; //if not formatted well , show this message
             return false;
         }
     }
@@ -274,19 +328,22 @@ button.addEventListener('click', (event) => {
 
     if (!checkUserName()) {
         event.preventDefault();
-    } else if (!checkUserEmail()) {
+    }
+    if (!checkUserEmail()) {
         event.preventDefault();
-
-    } else if (!checkCheckbox()) {
+    }
+    if (!checkCheckbox()) {
         event.preventDefault();
-
-    } else if (creditCardDiv.style.display === 'block') {
+    }
+    if (creditCardDiv.style.display === 'block') {
 
         if (!checkCcNumber()) {
             event.preventDefault();
-        } else if (!checkZipCode()) {
+        }
+        if (!checkZipCode()) {
             event.preventDefault();
-        } else if (!checkCvvNumber()) {
+        }
+        if (!checkCvvNumber()) {
             event.preventDefault();
         }
     }
@@ -299,20 +356,24 @@ function highlightElements() {
         userName.style.border = '1px #f00 solid';
         userName.previousElementSibling.style.color = '#f00';
         userName.style.boxShadow = '0 0 4px 0 #f00';
+        spanFirst.style.display = 'block';
     } else {
         userName.style.border = '2px solid #c1deeb';
         userName.style.boxShadow = 'none';
         userName.previousElementSibling.style.color = '#184f68';
+        spanFirst.style.display = 'none';
     }
 
     if (userEmail.value === '' || !valEmail()) {
         userEmail.style.border = '1px #f00 solid'
         userEmail.previousElementSibling.style.color = '#f00';
         userEmail.style.boxShadow = '0 0 4px 0 #f00';
+        spanSecond.style.display = 'block';
     } else {
         userEmail.style.border = '2px solid #c1deeb';
         userEmail.style.boxShadow = 'none';
         userEmail.previousElementSibling.style.color = '#184f68';
+        spanSecond.style.display = 'none';
     }
 
     var checkboxvalue2 = checkBoxCount();
@@ -327,33 +388,39 @@ function highlightElements() {
         if (ccNum.value === '' || !valCcNumber()) {
             ccNum.style.border = '1px #f00 solid';
             ccNum.previousElementSibling.style.color = '#f00';
-            ccNum.style.boxShadow = '0 0 4px 0 #f00'
+            ccNum.style.boxShadow = '0 0 4px 0 #f00';
+            spanThird.style.display = 'block';
         } else {
             ccNum.style.border = '2px solid #c1deeb';
             ccNum.style.boxShadow = 'none';
             ccNum.previousElementSibling.style.color = '#184f68';
+            spanThird.style.display = 'none';
         }
 
         if (zipCodeNum.value === '' || !valZipCode()) {
             zipCodeNum.style.border = '1px #f00 solid';
             zipCodeNum.previousElementSibling.style.color = '#f00';
-            zipCodeNum.style.boxShadow = '0 0 4px 0 #f00'
+            zipCodeNum.style.boxShadow = '0 0 4px 0 #f00';
+            spanFourth.style.display = 'block';
 
         } else {
             zipCodeNum.style.border = '2px solid #c1deeb';
             zipCodeNum.style.boxShadow = 'none';
             zipCodeNum.previousElementSibling.style.color = '#184f68';
+            spanFourth.style.display = 'none';
         }
 
         if (cvvCodeNum.value === '' || !valCvvNumber()) {
             cvvCodeNum.style.border = '1px #f00 solid';
             cvvCodeNum.previousElementSibling.style.color = '#f00';
-            cvvCodeNum.style.boxShadow = '0 0 4px 0 #f00'
+            cvvCodeNum.style.boxShadow = '0 0 4px 0 #f00';
+            spanFifth.style.display = 'block';
 
         } else {
             cvvCodeNum.style.border = '2px solid #c1deeb';
             cvvCodeNum.style.boxShadow = 'none';
             cvvCodeNum.previousElementSibling.style.color = '#184f68';
+            spanFifth.style.display = 'none';
         }
     }
 }
@@ -362,9 +429,8 @@ function highlightElements() {
 userEmail.addEventListener('keyup', () => {
 
     if ((/^[^@]+@[^@.]+\.[a-z]+$/.test(userEmail.value)) == false) {
-    
-        spanElement.style.visibility = 'visible';
+        spanSecond.style.visibility = 'visible';
     } else {
-        spanElement.style.visibility = 'hidden';
+        spanSecond.style.visibility = 'hidden';
     }
 });
