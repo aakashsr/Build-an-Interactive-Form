@@ -19,6 +19,7 @@ const ccNum = document.getElementById('cc-num');
 const cvvCodeNum = document.getElementById('cvv');
 const zipCodeNum = document.getElementById('zip');
 var activitiesLegend = fieldActivities.querySelector('legend');
+const formElement = document.querySelector('form');
 let total = 0;
 
 //initially hiding the color options
@@ -29,9 +30,8 @@ paymentOptions[1].selected = 'selected';
 payPalDiv.style.display = 'none';
 //initially hiding the bitcoin div
 bitcoinDiv.style.display = 'none';
-
-const input = document.querySelector('[placeholder = "Your job role"]');
 //initially hiding the div of 'other' option
+const input = document.querySelector('[placeholder = "Your job role"]');
 input.style.display = 'none';
 
 //Creating and appending 'span' element
@@ -64,7 +64,6 @@ function createFifthSpan() {
     spanElem5.id = 'span5';
     creditCardDiv.children[2].appendChild(spanElem5);
 }
-
 //Calling the function to append the 'span' element
 createFirstSpan();
 createSecondSpan();
@@ -73,7 +72,7 @@ createFourthSpan();
 createFifthSpan();
 
 //automatically setting the focus in username input 
-userName.setAttribute('autofocus', 'autofocus');
+userName.focus();
 
 // Displaying 'div' when user chooses the 'other' option and also
 // hiding it if user changes his mind and chooses another option
@@ -121,15 +120,17 @@ selectDesign.addEventListener('change', (e) => {
 // Calculating the total cost for registering
 for (let i = 0; i < label.length; i++) {
     fieldsetInput[i].addEventListener('click', () => {
-
+        let counter = 0;
         const text = label[i].textContent;
         if (fieldsetInput[i].checked) {
             total += parseInt(text.substring(text.indexOf('$') + 1, text.length));
+            counter += 1;
         } else {
             total -= parseInt(text.substring(text.indexOf('$') + 1, text.length));
+            counter -= 1;
         }
         const lastLabel = document.getElementById('totalamount');
-        lastLabel.textContent = '$' + total.toString();
+        lastLabel.textContent = 'Your total cost is $' + total.toString();
     });
 }
 
@@ -183,7 +184,6 @@ paymentFieldset.addEventListener('change', (e) => {
     }
 });
 
-
 function hidePayPal() {
     payPalDiv.style.display = 'none';
 }
@@ -198,7 +198,7 @@ function hideCreditCard() {
 
 // Defining validation methods for email , cc number , cc zip code , cc cvv number
 function valEmail() {
-    return (/^[^@]+@[^@.]+\.[a-z]+$/.test(userEmail.value));
+    return (/^[^@]+@[^@.]+\.([A-Za-z]{2,4})+$/.test(userEmail.value));
 }
 
 function valCcNumber() {
@@ -242,6 +242,7 @@ function checkUserName() {
         userName.style.boxShadow = '0 0 2px 0 #f00';
         spanFirst.style.display = 'block';
         event.preventDefault();
+        userName.focus();      
     } else {
         userName.style.border = '2px solid #c1deeb';
         userName.style.boxShadow = 'none';
@@ -258,6 +259,7 @@ function checkUserEmail() {
         userEmail.style.boxShadow = '0 0 2px 0 #f00';
         spanSecond.style.display = 'block';
         event.preventDefault();
+        userEmail.focus();
     } else {
         if (!valEmail()) {
             spanSecond.textContent = "*Please enter a valid email address";
@@ -265,6 +267,7 @@ function checkUserEmail() {
             userEmail.style.boxShadow = '0 0 2px 0 #f00';
             spanSecond.style.display = 'block';
             event.preventDefault();
+            userEmail.focus();
         } else {
             userEmail.style.border = '2px solid #c1deeb';
             userEmail.style.boxShadow = 'none';
@@ -284,10 +287,8 @@ function checkCheckboxInfo() {
     }
 }
 
-// initially setting the 'display' property of credit card div to 'block'
-// creditCardDiv.style.display === 'block';
-
 function checkCcNumber() {
+    //checking validation of credit card only when value of payment div is "credit card"
     if (paymentDiv.value === 'credit card') {
 
         if (ccNum.value === '') {
@@ -297,6 +298,7 @@ function checkCcNumber() {
             ccNum.style.boxShadow = '0 0 2px 0 #f00';
             spanThird.style.display = 'block';
             event.preventDefault();
+            ccNum.focus();
         } else {
             if (!valCcNumber()) {
                 spanThird.textContent = "*Should be between 13-15 digit";
@@ -304,6 +306,7 @@ function checkCcNumber() {
                 ccNum.style.boxShadow = '0 0 2px 0 #f00';
                 spanThird.style.display = 'block';
                 event.preventDefault();
+                ccNum.focus();
             } else {
                 ccNum.style.border = '2px solid #c1deeb';
                 ccNum.style.boxShadow = 'none';
@@ -323,13 +326,15 @@ function checkZipCode() {
             zipCodeNum.style.boxShadow = '0 0 2px 0 #f00';
             spanFourth.style.display = 'block';
             event.preventDefault();
+            zipCodeNum.focus();
         } else {
             if (!valZipCode()) {
-                spanFourth.textContent = "*Must be 5 digit";
+                spanFourth.textContent = "*Must be 5 a digit number";
                 zipCodeNum.style.border = '1px #f00 solid';
                 zipCodeNum.style.boxShadow = '0 0 2px 0 #f00';
                 spanFourth.style.display = 'block';
                 event.preventDefault();
+                zipCodeNum.focus();
             } else {
                 zipCodeNum.style.border = '2px solid #c1deeb';
                 zipCodeNum.style.boxShadow = 'none';
@@ -349,13 +354,15 @@ function checkCvvNumber() {
             cvvCodeNum.style.boxShadow = '0 0 2px 0 #f00';
             spanFifth.style.display = 'block';
             event.preventDefault();
+            cvvCodeNum.focus();
         } else {
             if (!valCvvNumber()) {
-                spanFifth.textContent = "*Must be 3 digit";
+                spanFifth.textContent = "*Must be a 3 digit number";
                 cvvCodeNum.style.border = '1px #f00 solid';
                 cvvCodeNum.style.boxShadow = '0 0 2px 0 #f00';
                 spanFifth.style.display = 'block';
                 event.preventDefault();
+                cvvCodeNum.focus();
             } else {
                 cvvCodeNum.style.border = '2px solid #c1deeb';
                 cvvCodeNum.style.boxShadow = 'none';
@@ -366,29 +373,18 @@ function checkCvvNumber() {
     }
 }
 
-//calling all the functions on final submit "click" event to check whether the fields 
-//are well formatted or not
+//calling all the functions on final submit "click" event to check whether the fields are well formatted or not
 button.addEventListener('click', (event) => {
-    checkUserName();
-    checkUserEmail();
-    checkCheckboxInfo();
-    checkCcNumber();
-    checkZipCode();
-    checkCvvNumber();
+    var1 = checkUserName();
+    var2 = checkUserEmail();
+    var3 = checkCheckboxInfo();
+    var4 = checkCcNumber();
+    var5 = checkZipCode();
+    var6 = checkCvvNumber();
 });
 
-//real time validation of email
+//real time validation of all the input elements
 userEmail.addEventListener('keyup', () => {
-
-    // if (userEmail.value === "") {
-    //     spanSecond.textContent = "*Email Address required";
-    //     spanSecond.style.visibility = 'visible';
-    // } else if (!valEmail()) {
-    //     spanSecond.textContent = "*Please enter your Email Address in a correct format";
-    //     spanSecond.style.visibility = 'visible';
-    // } else {
-    //     spanSecond.style.visibility = 'hidden';
-    // }
     checkUserEmail();
 });
 
@@ -400,14 +396,10 @@ ccNum.addEventListener('keyup', () => {
     checkCcNumber();
 });
 
-zipCodeNum.addEventListener('keyup' , () => {
+zipCodeNum.addEventListener('keyup', () => {
     checkZipCode();
 });
 
-cvvCodeNum.addEventListener('keyup' , () => {
+cvvCodeNum.addEventListener('keyup', () => {
     checkCvvNumber();
-}); 
-
-fieldActivities.addEventListener('change' , () => {
-    checkCheckboxInfo();
 });
