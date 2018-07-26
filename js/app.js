@@ -231,6 +231,7 @@ function checkBoxCount() {
     }
 }
 
+//function to check if input value is empty
 function forEmptyValue( elementName , spanNumber , text){
         spanNumber.textContent = text;
         elementName.style.border = '1px #f00 solid'
@@ -241,6 +242,7 @@ function forEmptyValue( elementName , spanNumber , text){
         elementName.focus();
 }
 
+//function to check if input value if not well formatted
 function ifNotFormattedCorrectly( elementName , spanNumber , text){
     spanNumber.textContent = text;
     elementName.style.border = '1px #f00 solid';
@@ -250,6 +252,7 @@ function ifNotFormattedCorrectly( elementName , spanNumber , text){
     elementName.focus();
 }
 
+//function to check if input value is formatted well
 function ifFormattedCorrectly( elementName , spanNumber){
     elementName.style.border = '2px solid #c1deeb';
     elementName.style.boxShadow = 'none';
