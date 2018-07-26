@@ -120,14 +120,11 @@ selectDesign.addEventListener('change', (e) => {
 // Calculating the total cost for registering
 for (let i = 0; i < label.length; i++) {
     fieldsetInput[i].addEventListener('click', () => {
-        let counter = 0;
         const text = label[i].textContent;
         if (fieldsetInput[i].checked) {
             total += parseInt(text.substring(text.indexOf('$') + 1, text.length));
-            counter += 1;
         } else {
             total -= parseInt(text.substring(text.indexOf('$') + 1, text.length));
-            counter -= 1;
         }
         const lastLabel = document.getElementById('totalamount');
         lastLabel.textContent = 'Your total cost is $' + total.toString();
@@ -234,45 +231,49 @@ function checkBoxCount() {
     }
 }
 
+function forEmptyValue( elementName , spanNumber , text){
+        spanNumber.textContent = text;
+        elementName.style.border = '1px #f00 solid'
+        elementName.previousElementSibling.style.color = '#f00';
+        elementName.style.boxShadow = '0 0 2px 0 #f00';
+        spanNumber.style.display = 'block';
+        event.preventDefault();
+        elementName.focus();
+}
+
+function ifNotFormattedCorrectly( elementName , spanNumber , text){
+    spanNumber.textContent = text;
+    elementName.style.border = '1px #f00 solid';
+    elementName.style.boxShadow = '0 0 2px 0 #f00';
+    spanNumber.style.display = 'block';
+    event.preventDefault();
+    elementName.focus();
+}
+
+function ifFormattedCorrectly( elementName , spanNumber){
+    elementName.style.border = '2px solid #c1deeb';
+    elementName.style.boxShadow = 'none';
+    elementName.previousElementSibling.style.color = '#184f68';
+    spanNumber.style.display = 'none';
+}
+
+
 function checkUserName() {
     if (userName.value === '') {
-        spanFirst.textContent = "*User name required";
-        userName.style.border = '1px #f00 solid';
-        userName.previousElementSibling.style.color = '#f00';
-        userName.style.boxShadow = '0 0 2px 0 #f00';
-        spanFirst.style.display = 'block';
-        event.preventDefault();
-        userName.focus();      
+      forEmptyValue( userName, spanFirst , "User name required");
     } else {
-        userName.style.border = '2px solid #c1deeb';
-        userName.style.boxShadow = 'none';
-        userName.previousElementSibling.style.color = '#184f68';
-        spanFirst.style.display = 'none';
+       ifFormattedCorrectly( userName , spanFirst );
     }
 }
 
 function checkUserEmail() {
     if (userEmail.value === '') {
-        spanSecond.textContent = "*Email address required";
-        userEmail.style.border = '1px #f00 solid'
-        userEmail.previousElementSibling.style.color = '#f00';
-        userEmail.style.boxShadow = '0 0 2px 0 #f00';
-        spanSecond.style.display = 'block';
-        event.preventDefault();
-        userEmail.focus();
+        forEmptyValue( userEmail , spanSecond , "*Email address required");
     } else {
         if (!valEmail()) {
-            spanSecond.textContent = "*Please enter a valid email address";
-            userEmail.style.border = '1px #f00 solid';
-            userEmail.style.boxShadow = '0 0 2px 0 #f00';
-            spanSecond.style.display = 'block';
-            event.preventDefault();
-            userEmail.focus();
+            ifNotFormattedCorrectly( userEmail , spanSecond , "*Please enter a valid email address");
         } else {
-            userEmail.style.border = '2px solid #c1deeb';
-            userEmail.style.boxShadow = 'none';
-            userEmail.previousElementSibling.style.color = '#184f68';
-            spanSecond.style.display = 'none';
+            ifFormattedCorrectly( userEmail , spanSecond);
         }
     }
 }
@@ -290,28 +291,13 @@ function checkCheckboxInfo() {
 function checkCcNumber() {
     //checking validation of credit card only when value of payment div is "credit card"
     if (paymentDiv.value === 'credit card') {
-
         if (ccNum.value === '') {
-            spanThird.textContent = "*Required";
-            ccNum.style.border = '1px #f00 solid'
-            ccNum.previousElementSibling.style.color = '#f00';
-            ccNum.style.boxShadow = '0 0 2px 0 #f00';
-            spanThird.style.display = 'block';
-            event.preventDefault();
-            ccNum.focus();
+            forEmptyValue( ccNum, spanThird, "Required");
         } else {
             if (!valCcNumber()) {
-                spanThird.textContent = "*Should be between 13-15 digit";
-                ccNum.style.border = '1px #f00 solid';
-                ccNum.style.boxShadow = '0 0 2px 0 #f00';
-                spanThird.style.display = 'block';
-                event.preventDefault();
-                ccNum.focus();
+                ifNotFormattedCorrectly( ccNum , spanThird , "*Should be between 13-15 digit");
             } else {
-                ccNum.style.border = '2px solid #c1deeb';
-                ccNum.style.boxShadow = 'none';
-                ccNum.previousElementSibling.style.color = '#184f68';
-                spanThird.style.display = 'none';
+                ifFormattedCorrectly( ccNum , spanThird);
             }
         }
     }
@@ -319,27 +305,14 @@ function checkCcNumber() {
 
 function checkZipCode() {
     if (paymentDiv.value === 'credit card') {
-        if (zipCodeNum.value === '') {
-            spanFourth.textContent = "*Required";
-            zipCodeNum.style.border = '1px #f00 solid'
-            zipCodeNum.previousElementSibling.style.color = '#f00';
-            zipCodeNum.style.boxShadow = '0 0 2px 0 #f00';
-            spanFourth.style.display = 'block';
-            event.preventDefault();
-            zipCodeNum.focus();
+        if (zipCodeNum.value === '') {  
+            forEmptyValue( zipCodeNum , spanFourth , "Required");
         } else {
             if (!valZipCode()) {
-                spanFourth.textContent = "*Must be 5 a digit number";
-                zipCodeNum.style.border = '1px #f00 solid';
-                zipCodeNum.style.boxShadow = '0 0 2px 0 #f00';
-                spanFourth.style.display = 'block';
-                event.preventDefault();
-                zipCodeNum.focus();
+                ifNotFormattedCorrectly( zipCodeNum , spanFourth , "*Must be a 5 digit number");
             } else {
-                zipCodeNum.style.border = '2px solid #c1deeb';
-                zipCodeNum.style.boxShadow = 'none';
-                zipCodeNum.previousElementSibling.style.color = '#184f68';
-                spanFourth.style.display = 'none';
+              
+                ifFormattedCorrectly( zipCodeNum , spanFourth);
             }
         }
     }
@@ -348,39 +321,27 @@ function checkZipCode() {
 function checkCvvNumber() {
     if (paymentDiv.value === 'credit card') {
         if (cvvCodeNum.value === '') {
-            spanFifth.textContent = "*Required";
-            cvvCodeNum.style.border = '1px #f00 solid'
-            cvvCodeNum.previousElementSibling.style.color = '#f00';
-            cvvCodeNum.style.boxShadow = '0 0 2px 0 #f00';
-            spanFifth.style.display = 'block';
-            event.preventDefault();
-            cvvCodeNum.focus();
+            forEmptyValue( cvvCodeNum , spanFifth , "*Required");
         } else {
             if (!valCvvNumber()) {
-                spanFifth.textContent = "*Must be a 3 digit number";
-                cvvCodeNum.style.border = '1px #f00 solid';
-                cvvCodeNum.style.boxShadow = '0 0 2px 0 #f00';
-                spanFifth.style.display = 'block';
-                event.preventDefault();
-                cvvCodeNum.focus();
+              
+                ifNotFormattedCorrectly( cvvCodeNum , spanFifth , "*Must be a 3 digit number");
             } else {
-                cvvCodeNum.style.border = '2px solid #c1deeb';
-                cvvCodeNum.style.boxShadow = 'none';
-                cvvCodeNum.previousElementSibling.style.color = '#184f68';
-                spanFifth.style.display = 'none';
+              
+                ifFormattedCorrectly( cvvCodeNum , spanFifth );
             }
         }
     }
 }
 
 //calling all the functions on final submit "click" event to check whether the fields are well formatted or not
-button.addEventListener('click', (event) => {
-    var1 = checkUserName();
-    var2 = checkUserEmail();
-    var3 = checkCheckboxInfo();
-    var4 = checkCcNumber();
-    var5 = checkZipCode();
-    var6 = checkCvvNumber();
+button.addEventListener('click', () => {
+    checkUserName();
+    checkUserEmail();
+    checkCheckboxInfo();
+    checkCcNumber();
+    checkZipCode();
+    checkCvvNumber();
 });
 
 //real time validation of all the input elements
